@@ -21,7 +21,8 @@ def send_request(img_url, end_point, thread_num):
 
 def run():
     config = load_para()
-    end_point = config['ecs_endpoint'] if [config["target"]] == "ecs" else config['lambda_endpoint']
+    end_point = config['ecs_endpoint'] if config["target"] == "ecs" else config['lambda_endpoint']
+    print(end_point)
     data = [[config["img_url"], end_point, i] for i in range(config["request_number"])]
     with Pool(processes=config["request_number"]) as pool:
         pool.starmap(send_request, data)
